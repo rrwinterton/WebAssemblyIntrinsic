@@ -21,8 +21,6 @@ will determine and standardize on the definitions of WebAssembly instructions.
 ## IMPLEMENTATIONS:
 
 ```
-gray = red * 0.3 + green * 0.59 + blue * 0.11
-```
 
 ### C++:
 
@@ -40,10 +38,9 @@ In the future.
 ```
 
 ```
-**WebAssembly (Emscripten):**
+**WebAssembly (Test):**
 
 ```
-
 Below we explain each of the compiling options used.
 
 ## CREDITS/ACKNOWLEDGMENTS:
