@@ -21,9 +21,58 @@ typedef double V128_f64 __attribute__ ((__vector_size__(16)));
 static __inline__ V128_i8 __DEFAULT_FN_ATTRS
 wasm_v128_const(int8_t c15, int8_t c14, int8_t c13, int8_t c12, int8_t c11, int8_t c10, int8_t c9, int8_t c8, 
                 int8_t c7, int8_t c6, int8_t c5, int8_t c4, int8_t c3, int8_t c2, int8_t c1, int8_t c0) {
-                    return __extension__ (V128_i8){c0,c1,c2,c3,c4,c5,c6,c7,c8,
-                                                        c9,c10,c11,c12,c13,c14,c15};
+                    return __extension__ (V128_i8){c0,c1,c2,c3,c4,c5,c6,c7,
+                                                   c8,c9,c10,c11,c12,c13,c14,c15};
                 } 
+
+static __inline__ V128_i8 __DEFAULT_FN_ATTRS
+wasm_v128_load(V128_i8 *mem) {
+   return __extension__ (V128_i8) (*mem);
+}
+
+static __inline__ void __DEFAULT_FN_ATTRS
+wasm_v128_store(V128_i8* mem, V128_i8 a) {
+   *(V128_i8 *) mem = a;
+   return;
+}
+
+//instruction: i8x16.splat
+static __inline__ V128_i8 __DEFAULT_FN_ATTRS
+wasm_i8x16_splat(int8_t a) {
+    return __extension__ (V128_i8){a,a,a,a,a,a,a,a,a,a,a,a,a,a,a,a};
+}
+
+//instruction: i16x8.splat
+static __inline__ V128_i16 __DEFAULT_FN_ATTRS
+wasm_i16x8_splat(int16_t a) {
+    return __extension__ (V128_i16){a,a,a,a,a,a,a,a};
+}
+
+//instruction: i32x4.splat
+static __inline__ V128_i32 __DEFAULT_FN_ATTRS
+wasm_i32x4_splat(int32_t a) {
+    return __extension__ (V128_i32){a,a,a,a};
+}
+
+
+//instruction: i64x2.splat
+static __inline__ V128_i64 __DEFAULT_FN_ATTRS
+wasm_i64x2_splat(int64_t a) {
+    return __extension__ (V128_i64){a,a};
+}
+
+//instruction: f32x4.splat
+static __inline__ V128_f32 __DEFAULT_FN_ATTRS
+wasm_f32x4_splat(float a) {
+    return __extension__ (V128_f32){a,a,a,a};
+}
+
+//instruction: f64x2.splat
+static __inline__ V128_f64 __DEFAULT_FN_ATTRS
+wasm_f64x2_splat(double a) {
+    return __extension__ (V128_f64){a,a};
+}
+
 
 static __inline__ V128_i8 __DEFAULT_FN_ATTRS
 wasm_i8x16_add(V128_i8 a, V128_i8 b){
@@ -36,35 +85,14 @@ wasm_i8x16_sub(V128_i8 a, V128_i8 b){
 }
 
 /*
-//instruction: v128.load	m:memarg
-static __inline__ V128_i8 __DEFAULT_FN_ATTRS
-wasm_v128_load(V128_i8* a) {
-    return __extension__ (V128_i8)(V128_8 *) a;
-};
-
-//instruction: v128.store	m:memarg
-V128_i8* wasm_v128_store(V128_i8 a);
-
-//instruction: i8x16.splat
-V128_i8 wasm_i8x16_splat(int8_t c);
-
-//instruction: i16x8.splat	
-V128_i16 wasm_i16x8_splat(int16_t c);
-
-//instruction: i32x4.splat	
-V128_i32 wasm_i32x4_splat(int32_t c);
-
-//instruction: i64x2.splat	
-V128_i64 wasm_i64x2_splat(int64_t c);
-
-//instruction: f32x4.splat	
-V128_f32 wasm_f32x4_splat(float c);
-
-//instruction: f64x2.splat	
-V128_f64 wasm_f64x2_splat(double c);
 
 //instruction: i8x16.extract_lane_s	i:LaneIdx16
-V128_i8 wasm_i8x16_extract_lane_s(int32_t c);
+static __inline__ int32_t __DEFAULT_FN_ATTRS
+wasm_i8x16_extract_lane_s(V128_i8 a, uint32_t b) {
+    return __extension__ (a,b);
+}
+
+
 
 //instruction: i8x16.extract_lane_u	i:LaneIdx16
 V128_u8 wasm_i8x16_extract_lane_u(int32_t c);

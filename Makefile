@@ -19,7 +19,7 @@ $(EXECUTABLE_NAME).o: $(EXECUTABLE_NAME).cpp
 	 $(COMPILER) $(CFLAGS) -c $(EXECUTABLE_NAME).cpp
 
 disasm:
-	clang -emit-llvm $(EXECUTABLE_NAME).cpp -c -o $(EXECUTABLE_NAME).bc
+	clang -O0 -emit-llvm $(EXECUTABLE_NAME).cpp -c -o $(EXECUTABLE_NAME).bc
 	llvm-dis < $(EXECUTABLE_NAME).bc > $(EXECUTABLE_NAME).dis
 clean:
 	 rm -f $(EXECUTABLE_NAME).o $(EXECUTABLE_NAME).bc $(EXECUTABLE_NAME).dis $(EXECUTABLE_NAME)

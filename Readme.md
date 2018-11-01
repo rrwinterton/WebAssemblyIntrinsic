@@ -19,34 +19,41 @@ make disasm
 
 ### INSTALLATION:
 * Ubuntu
+* Windows
 
-## INCLUDED FILES:
-**CPP Folder:**
+## FILES:
+
 ```
+Makefile
+Readme.md
+WebAssemblyIntrinsic.cpp
+WebAssemblyIntrinsic.h
+
 ## IMPLEMENTATIONS:
 
 ```
 
-### C++:
+### Build files:
 
 ```
+Makefile
+(in the future a Windows make vcproj ?)
 
 ### WEBASSEMBLY:
 
 ## BUILD INSTRUCTIONS:
 **Windows:**
 
-In the future.
-
 **Linux:**		
 
 ```
+Set the environment path for the clang++ compiler as well as the 
+Ninja build environment.
 
 ```
 **WebAssembly (Test):**
 
 ```
-Below we explain each of the compiling options used.
 
 ## CREDITS/ACKNOWLEDGMENTS:
 
