@@ -84,15 +84,15 @@ wasm_i8x16_sub(V128_i8 a, V128_i8 b){
         return __extension__ (V128_i8) {a-b};    
 }
 
+
 /*
 
 //instruction: i8x16.extract_lane_s	i:LaneIdx16
 static __inline__ int32_t __DEFAULT_FN_ATTRS
 wasm_i8x16_extract_lane_s(V128_i8 a, uint32_t b) {
-    return __extension__ (a,b);
+    return __builtin_wasm_extract_lane_s_i8x16(a, 1);
+//    return __extension__ (a,b);
 }
-
-
 
 //instruction: i8x16.extract_lane_u	i:LaneIdx16
 V128_u8 wasm_i8x16_extract_lane_u(int32_t c);

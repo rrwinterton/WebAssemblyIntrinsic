@@ -91,7 +91,10 @@ int wasm_i8x16_extract_lane_s_test() {
     V128_i8 a;
     uint32_t b;
     int32_t c;
-    c = wasm_i8x16_extract_lane_s_test(a, b);
+    a = wasm_v128_const(0,1,2,3,4,5,6,7,8,9,10,11, 12,13,14,15);
+    b = 1;
+    c = wasm_i8x16_extract_lane_s(a, b);
+    return 0;
 }
 */
 
