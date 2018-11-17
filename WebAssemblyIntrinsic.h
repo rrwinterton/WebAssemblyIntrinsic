@@ -1,8 +1,9 @@
 /*
-Proposed WebAssembly SIMD Instructions 1 Sep 2018
+Proposed WebAssembly SIMD Instructions 16 Nov 2018
 */
 
 #include <stdint.h> //rrw where to get uintx_t's from?
+typedef char i8x16 __attribute__ ((__vector_size__(16)));
 typedef int8_t V128 __attribute__ ((__vector_size__(16))); //rrw
 typedef int8_t V128_i8 __attribute__ ((__vector_size__(16)));
 typedef uint8_t V128_u8 __attribute__ ((__vector_size__(16)));
@@ -15,9 +16,10 @@ typedef uint64_t V128_u64 __attribute__ ((__vector_size__(16)));
 typedef float V128_f32 __attribute__ ((__vector_size__(16)));
 typedef double V128_f64 __attribute__ ((__vector_size__(16)));
 
-#define __DEFAULT_FN_ATTRS
+//rrw is there a common definition for this?
+#define __DEFAULT_FN_ATTRS __attribute__((__always_inline__,__nodebug__))
 
-//instruction: v128.const  i:ImmByte[16]
+//v128.const  i:ImmByte[16]
 static __inline__ V128_i8 __DEFAULT_FN_ATTRS
 wasm_v128_const(int8_t c15, int8_t c14, int8_t c13, int8_t c12, int8_t c11, int8_t c10, int8_t c9, int8_t c8, 
                 int8_t c7, int8_t c6, int8_t c5, int8_t c4, int8_t c3, int8_t c2, int8_t c1, int8_t c0) {
@@ -25,6 +27,7 @@ wasm_v128_const(int8_t c15, int8_t c14, int8_t c13, int8_t c12, int8_t c11, int8
                                                    c8,c9,c10,c11,c12,c13,c14,c15};
                 } 
 
+//v128_load(*memory)
 static __inline__ V128_i8 __DEFAULT_FN_ATTRS
 wasm_v128_load(V128_i8 *mem) {
    return __extension__ (V128_i8) (*mem);
@@ -54,7 +57,6 @@ wasm_i32x4_splat(int32_t a) {
     return __extension__ (V128_i32){a,a,a,a};
 }
 
-
 //instruction: i64x2.splat
 static __inline__ V128_i64 __DEFAULT_FN_ATTRS
 wasm_i64x2_splat(int64_t a) {
@@ -73,7 +75,6 @@ wasm_f64x2_splat(double a) {
     return __extension__ (V128_f64){a,a};
 }
 
-
 static __inline__ V128_i8 __DEFAULT_FN_ATTRS
 wasm_i8x16_add(V128_i8 a, V128_i8 b){
         return __extension__ (V128_i8) {a+b};    
@@ -84,48 +85,75 @@ wasm_i8x16_sub(V128_i8 a, V128_i8 b){
         return __extension__ (V128_i8) {a-b};    
 }
 
+//i8x16.extract_lane_s	i:LaneIdx16
+#define wasm_i8x16_extract_lane_s(a, b) (__builtin_wasm_extract_lane_s_i8x16(a,b))
+
+//instruction: i8x16.extract_lane_u	i:LaneIdx16
+#define wasm_i8x16_extract_lane_u(a, b) (__builtin_wasm_extract_lane_u_i8x16(a,b))
+
+//instruction: i16x8.extract_lane_s	i:LaneIdx8
+#define wasm_i16x8_extract_lane_s(a, b) (__builtin_wasm_extract_lane_s_i16x8(a,b))
+
+//instruction: i16x8.extract_lane_u	i:LaneIdx8
+#define wasm_i16x8_extract_lane_u(a, b) (__builtin_wasm_extract_lane_u_i16x8(a,b))
+
+//instruction: i32x4.extract_lane	i:LaneIdx4  //rrw why not signed and unsigned 32's
+#define wasm_i32x4_extract_lane(a, b) (__builtin_wasm_extract_lane_i32x4(a,b))
+
+//instruction: i64x2.extract_lane	i:LaneIdx2
+#define wasm_i64x2_extract_lane(a, b) (__builtin_wasm_extract_lane_i64x2(a,b))
+
+//instruction f32x4.extract_lane i:LaneIdx4
+#define wasm_f32x4_extract_lane(a, b) (__builtin_wasm_extract_lane_f32x4(a,b))
+
+//instruction f64x2.extract_lane i:LaneIdx2
+#define wasm_f64x2_extract_lane(a, b) (__builtin_wasm_extract_lane_f64x2(a,b))
+
+#define wasm_i8x16_replace_lane(a, i, b) (__builtin_wasm_replace_lane_i8x16(a, i, b))
+
+#define wasm_i16x8_replace_lane(a, i, b) (__builtin_wasm_replace_lane_i16x8(a, i, b))
+
+#define wasm_i32x4_replace_lane(a, i, b) (__builtin_wasm_replace_lane_i32x4(a, i, b))
+
+#define wasm_i64x2_replace_lane(a, i, b) (__builtin_wasm_replace_lane_i64x2(a, i, b))
+
+#define wasm_f32x4_replace_lane(a, i, b) (__builtin_wasm_replace_lane_f32x4(a, i, b))
+
+#define wasm_f64x2_replace_lane(a, i, b) (__builtin_wasm_replace_lane_f64x2(a, i, b))
 
 /*
+// identity operation - return 4-element vector v1.
+__builtin_shufflevector(v1, v1, 0, 1, 2, 3)
 
-//instruction: i8x16.extract_lane_s	i:LaneIdx16
-static __inline__ int32_t __DEFAULT_FN_ATTRS
-wasm_i8x16_extract_lane_s(V128_i8 a, uint32_t b) {
-    return __builtin_wasm_extract_lane_s_i8x16(a, 1);
-//    return __extension__ (a,b);
+// "Splat" element 0 of V1 into a 4-element result.
+__builtin_shufflevector(V1, V1, 0, 0, 0, 0)
+
+// Reverse 4-element vector V1.
+__builtin_shufflevector(V1, V1, 3, 2, 1, 0)
+
+// Concatenate every other element of 4-element vectors V1 and V2.
+__builtin_shufflevector(V1, V2, 0, 2, 4, 6)
+
+// Concatenate every other element of 8-element vectors V1 and V2.
+__builtin_shufflevector(V1, V2, 0, 2, 4, 6, 8, 10, 12, 14)
+
+// Shuffle v1 with some elements being undefined
+__builtin_shufflevector(v1, v1, 3, -1, 1, -1)
+*/
+
+//v128_load(*memory)
+#define wasm_v128_shuffle(a,b) (__builtin_shufflevector(a,b,0,1,2,3,4,5,6,7))
+
+/*
+static __inline__ V128_i8 __DEFAULT_FN_ATTRS
+wasm_v128_shuffle(V128_i8 a, V128_i8 b, uint32_t s[16]) {
+   return __builtin_shufflevector(a, b, 0);
 }
+*/
 
-//instruction: i8x16.extract_lane_u	i:LaneIdx16
-V128_u8 wasm_i8x16_extract_lane_u(int32_t c);
+//v8x16.shuffle
 
-//instruction: i8x16.extract_lane_s	i:LaneIdx16
-V128_i16 wasm_i16x8_extract_lane_s(int32_t c);
-
-//instruction: i8x16.extract_lane_u	i:LaneIdx16
-V128_u16 wasm_i16x8_extract_lane_u(int32_t c);
-
-//instruction i32x4.extract_lane i:LaneIdx16
-V128_u32 wasm_i32x4_extract_lane(int32_t c);
-
-//instruction i64x2.extract_lane i:LaneIdx16
-V128_u64 wasm_i64x2_extract_lane(int32_t c);
-
-//instruction f32x4.extract_lane i:LaneIdx16
-V128_f32 wasm_f32x4_extract_lane(int32_t c);
-
-//instruction f64x2.extract_lane i:LaneIdx16
-V128_f64 wasm_f64x2_extract_lane(int32_t c);
-
-void wasm_i8x16_replace_lane(int8_t a, int32_t c);
-
-void wasm_i16x8_replace_lane(int16_t a, int32_t c);
-
-void wasm_i32x4_replace_lane(int32_t a, int32_t c);
-
-void wasm_i64x2_replace_lane(int64_t a, int32_t c);
-
-void wasm_f32x4_replace_lane(float a, int32_t c);
-
-void wasm_f64x2_replace_lane(double a, int32_t c);
+/*
 
 void wasm_v8x16_shuffle(V128_i8 a, V128_i8 b, int32_t c);
 
