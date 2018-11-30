@@ -232,6 +232,30 @@ int wasm_i8x16_add_test() {
    return WASM_TEST_SUCCESS;
 }
 
+int wasm_i16x8_add_test() {
+   V128_i16 a, b, c;
+   a = wasm_v128_const(0,1,2,3,4,5,6,7,8,9,10,11, 12,13,14,15);
+   b = wasm_v128_const(1,2,3,4,5,6,7,8,9,10,11, 12,13,14,15,16);  
+   c = wasm_i16x8_add(a,b);
+   return WASM_TEST_SUCCESS;
+}
+
+int wasm_i32x4_add_test() {
+   V128_i32 a, b, c;
+   a = wasm_v128_const(0,1,2,3,4,5,6,7,8,9,10,11, 12,13,14,15);
+   b = wasm_v128_const(1,2,3,4,5,6,7,8,9,10,11, 12,13,14,15,16);  
+   c = wasm_i32x4_add(a,b);
+   return WASM_TEST_SUCCESS;
+}
+
+int wasm_i64x2_add_test() {
+   V128_i64 a, b, c;
+   a = wasm_v128_const(0,1,2,3,4,5,6,7,8,9,10,11, 12,13,14,15);
+   b = wasm_v128_const(1,2,3,4,5,6,7,8,9,10,11, 12,13,14,15,16);  
+   c = wasm_i64x2_add(a,b);
+   return WASM_TEST_SUCCESS;
+}
+
 //simple wasm_i8x16_sub
 int wasm_i8x16_sub_test() {
    V128_i8 a, b, c;
@@ -240,6 +264,170 @@ int wasm_i8x16_sub_test() {
    c = wasm_i8x16_sub(a,b);
    return WASM_TEST_SUCCESS;
 }
+
+int wasm_i16x8_sub_test() {
+   V128_i16 a, b, c;
+   a = wasm_v128_const(0,1,2,3,4,5,6,7,8,9,10,11, 12,13,14,15);
+   b = wasm_v128_const(1,2,3,4,5,6,7,8,9,10,11, 12,13,14,15,16);  
+   c = wasm_i16x8_sub(a,b);
+   return WASM_TEST_SUCCESS;
+}
+
+int wasm_i32x4_sub_test() {
+   V128_i32 a, b, c;
+   a = wasm_v128_const(0,1,2,3,4,5,6,7,8,9,10,11, 12,13,14,15);
+   b = wasm_v128_const(1,2,3,4,5,6,7,8,9,10,11, 12,13,14,15,16);  
+   c = wasm_i32x4_sub(a,b);
+   return WASM_TEST_SUCCESS;
+}
+
+int wasm_i64x2_sub_test() {
+   V128_i64 a, b, c;
+   a = wasm_v128_const(0,1,2,3,4,5,6,7,8,9,10,11, 12,13,14,15);
+   b = wasm_v128_const(1,2,3,4,5,6,7,8,9,10,11, 12,13,14,15,16);  
+   c = wasm_i64x2_sub(a,b);
+   return WASM_TEST_SUCCESS;
+}
+
+int wasm_i8x16_mul_test() {
+   V128_i8 a, b, c;
+   a = wasm_v128_const(0,1,2,3,4,5,6,7,8,9,10,11, 12,13,14,15);
+   b = wasm_v128_const(1,2,3,4,5,6,7,8,9,10,11, 12,13,14,15,16);   
+   c = wasm_i8x16_mul(a,b);
+   return WASM_TEST_SUCCESS;
+}
+
+int wasm_i16x8_mul_test() {
+   V128_i16 a, b, c;
+   a = wasm_v128_const(0,1,2,3,4,5,6,7,8,9,10,11, 12,13,14,15);
+   b = wasm_v128_const(1,2,3,4,5,6,7,8,9,10,11, 12,13,14,15,16);  
+   c = wasm_i16x8_mul(a,b);
+   return WASM_TEST_SUCCESS;
+}
+
+int wasm_i32x4_mul_test() {
+   V128_i32 a, b, c;
+   a = wasm_v128_const(0,1,2,3,4,5,6,7,8,9,10,11, 12,13,14,15);
+   b = wasm_v128_const(1,2,3,4,5,6,7,8,9,10,11, 12,13,14,15,16);  
+   c = wasm_i32x4_mul(a,b);
+   return WASM_TEST_SUCCESS;
+}
+
+int wasm_i8x16_shl_test() {
+   V128_i8 a, b, c;
+   int32_t d = 2;
+   a = wasm_v128_const(0,1,2,3,4,5,6,7,8,9,10,11, 12,13,14,15);
+   b = wasm_v128_const(1,2,3,4,5,6,7,8,9,10,11, 12,13,14,15,16);   
+   c = wasm_i8x16_shl(a,d);
+   return WASM_TEST_SUCCESS;
+}
+
+int wasm_i16x8_shl_test() {
+   V128_i16 a, b, c;
+   int32_t d = 2;
+   a = wasm_v128_const(0,1,2,3,4,5,6,7,8,9,10,11, 12,13,14,15);
+   b = wasm_v128_const(1,2,3,4,5,6,7,8,9,10,11, 12,13,14,15,16);  
+   c = wasm_i16x8_shl(a,d);
+   return WASM_TEST_SUCCESS;
+}
+
+int wasm_i32x4_shl_test() {
+   V128_i32 a, b, c;
+   int32_t d = 2;
+   a = wasm_v128_const(0,1,2,3,4,5,6,7,8,9,10,11, 12,13,14,15);
+   b = wasm_v128_const(1,2,3,4,5,6,7,8,9,10,11, 12,13,14,15,16);  
+   c = wasm_i32x4_shl(a,d);
+   return WASM_TEST_SUCCESS;
+}
+
+int wasm_i64x2_shl_test() {
+   V128_i64 a, b, c;
+   int32_t d = 2;
+   a = wasm_v128_const(0,1,2,3,4,5,6,7,8,9,10,11, 12,13,14,15);
+   b = wasm_v128_const(1,2,3,4,5,6,7,8,9,10,11, 12,13,14,15,16);  
+   c = wasm_i64x2_shl(a,d);
+   return WASM_TEST_SUCCESS;
+}
+
+int wasm_v128_and_test() {
+   V128_i8 a, b, c;
+   a = wasm_v128_const(0,1,2,3,4,5,6,7,8,9,10,11, 12,13,14,15);
+   b = wasm_v128_const(1,2,3,4,5,6,7,8,9,10,11, 12,13,14,15,16);   
+   c = wasm_v128_and(a,b);
+   return WASM_TEST_SUCCESS;
+}
+
+int wasm_v128_or_test() {
+   V128_i8 a, b, c;
+   a = wasm_v128_const(0,1,2,3,4,5,6,7,8,9,10,11, 12,13,14,15);
+   b = wasm_v128_const(1,2,3,4,5,6,7,8,9,10,11, 12,13,14,15,16);   
+   c = wasm_v128_or(a,b);
+   return WASM_TEST_SUCCESS;
+}
+
+int wasm_v128_xor_test() {
+   V128_i8 a, b, c;
+   a = wasm_v128_const(0,1,2,3,4,5,6,7,8,9,10,11, 12,13,14,15);
+   b = wasm_v128_const(1,2,3,4,5,6,7,8,9,10,11, 12,13,14,15,16);   
+   c = wasm_v128_xor(a,b);
+   return WASM_TEST_SUCCESS;
+}
+
+int wasm_v128_not_test() {
+   V128_i8 a, c;
+   a = wasm_v128_const(0,1,2,3,4,5,6,7,8,9,10,11, 12,13,14,15);  
+   c = wasm_v128_not(a);
+   return WASM_TEST_SUCCESS;
+}
+
+int wasm_i8x16_eq_test() {
+   V128_i8 a, b, c;
+   a = wasm_v128_const(0,1,2,3,4,5,6,7,8,9,10,11, 12,13,14,15);
+   b = wasm_v128_const(1,2,3,4,5,6,7,8,9,10,11, 12,13,14,15,16);   
+   c = wasm_i8x16_eq(a, b);
+   return WASM_TEST_SUCCESS;
+}
+
+int wasm_i16x8_eq_test() {
+   V128_i16 a, b, c;
+   a = wasm_v128_const(0,1,2,3,4,5,6,7,8,9,10,11, 12,13,14,15);
+   b = wasm_v128_const(1,2,3,4,5,6,7,8,9,10,11, 12,13,14,15,16);  
+   c = wasm_i16x8_eq(a,b);
+   return WASM_TEST_SUCCESS;
+}
+
+int wasm_i32x4_eq_test() {
+   V128_i32 a, b, c;
+   a = wasm_v128_const(0,1,2,3,4,5,6,7,8,9,10,11, 12,13,14,15);
+   b = wasm_v128_const(1,2,3,4,5,6,7,8,9,10,11, 12,13,14,15,16);  
+   c = wasm_i32x4_eq(a,b);
+   return WASM_TEST_SUCCESS;
+}
+
+int wasm_i8x16_ne_test() {
+   V128_i8 a, b, c;
+   a = wasm_v128_const(0,1,2,3,4,5,6,7,8,9,10,11, 12,13,14,15);
+   b = wasm_v128_const(1,2,3,4,5,6,7,8,9,10,11, 12,13,14,15,16);   
+   c = wasm_i8x16_eq(a, b);
+   return WASM_TEST_SUCCESS;
+}
+
+int wasm_i16x8_ne_test() {
+   V128_i16 a, b, c;
+   a = wasm_v128_const(0,1,2,3,4,5,6,7,8,9,10,11, 12,13,14,15);
+   b = wasm_v128_const(1,2,3,4,5,6,7,8,9,10,11, 12,13,14,15,16);  
+   c = wasm_i16x8_eq(a,b);
+   return WASM_TEST_SUCCESS;
+}
+
+int wasm_i32x4_ne_test() {
+   V128_i32 a, b, c;
+   a = wasm_v128_const(0,1,2,3,4,5,6,7,8,9,10,11, 12,13,14,15);
+   b = wasm_v128_const(1,2,3,4,5,6,7,8,9,10,11, 12,13,14,15,16);  
+   c = wasm_i32x4_eq(a,b);
+   return WASM_TEST_SUCCESS;
+}
+
 
 //IntializeTests
 int InitializeTests() {
@@ -287,7 +475,30 @@ int main(int argc, char *argv[]) {
    Ret = wasm_f64x2_replace_lane_test();
    Ret = wasm_v128_shuffle_test(); //rrw shuffle has some literal problems by definition from spec need to figure out
    Ret = wasm_i8x16_add_test();
+   Ret = wasm_i16x8_add_test();
+   Ret = wasm_i32x4_add_test();
+   Ret = wasm_i64x2_add_test();
+   Ret = wasm_i8x16_shl_test();
    Ret = wasm_i8x16_sub_test();
-
+   Ret = wasm_i16x8_sub_test();
+   Ret = wasm_i32x4_sub_test();
+   Ret = wasm_i64x2_sub_test();
+   Ret = wasm_i8x16_mul_test();
+   Ret = wasm_i16x8_mul_test();
+   Ret = wasm_i32x4_mul_test();
+   Ret = wasm_i8x16_shl_test();
+   Ret = wasm_i16x8_shl_test();
+   Ret = wasm_i32x4_shl_test();
+   Ret = wasm_i64x2_shl_test();
+   Ret = wasm_v128_and_test();
+   Ret = wasm_v128_or_test();
+   Ret = wasm_v128_xor_test();
+   Ret = wasm_v128_not_test();
+   Ret = wasm_i8x16_eq_test();
+   Ret = wasm_i16x8_eq_test();
+   Ret = wasm_i32x4_eq_test();
+   Ret = wasm_i8x16_ne_test();
+   Ret = wasm_i16x8_ne_test();
+   Ret = wasm_i32x4_ne_test();
    return Ret;
 }
