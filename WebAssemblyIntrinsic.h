@@ -80,10 +80,149 @@ wasm_i8x16_add(V128_i8 a, V128_i8 b){
         return __extension__ (V128_i8) {a+b};    
 }
 
+static __inline__ V128_i16 __DEFAULT_FN_ATTRS
+wasm_i16x8_add(V128_i16 a, V128_i16 b){
+        return __extension__ (V128_i16) {a+b};    
+}
+
+static __inline__ V128_i32 __DEFAULT_FN_ATTRS
+wasm_i32x4_add(V128_i32 a, V128_i32 b) {
+        return __extension__ (V128_i32) {a+b};    
+}
+
+static __inline__ V128_i64 __DEFAULT_FN_ATTRS
+wasm_i64x2_add(V128_i64 a, V128_i64 b) {
+        return __extension__ (V128_i64) {a+b};    
+}
+
+static __inline__ V128_i16 __DEFAULT_FN_ATTRS
+wasm_i16x8_sub(V128_i16 a, V128_i16 b){
+        return __extension__ (V128_i16) {a-b};    
+}
+
+static __inline__ V128_i32 __DEFAULT_FN_ATTRS
+wasm_i32x4_sub(V128_i32 a, V128_i32 b) {
+        return __extension__ (V128_i32) {a-b};    
+}
+
+static __inline__ V128_i64 __DEFAULT_FN_ATTRS
+wasm_i64x2_sub(V128_i64 a, V128_i64 b) {
+        return __extension__ (V128_i64) {a-b};    
+}
+
 static __inline__ V128_i8 __DEFAULT_FN_ATTRS
 wasm_i8x16_sub(V128_i8 a, V128_i8 b){
         return __extension__ (V128_i8) {a-b};    
 }
+
+static __inline__ V128_i8 __DEFAULT_FN_ATTRS
+wasm_i8x16_mul(V128_i8 a, V128_i8 b){
+        return __extension__ (V128_i8) {a*b};    
+}
+
+static __inline__ V128_i16 __DEFAULT_FN_ATTRS
+wasm_i16x8_mul(V128_i16 a, V128_i16 b) {
+        return __extension__ (V128_i16) {a*b};    
+}
+
+static __inline__ V128_i32 __DEFAULT_FN_ATTRS
+wasm_i32x4_mul(V128_i32 a, V128_i32 b) {
+        return __extension__ (V128_i32) {a*b};    
+}
+
+static __inline__ V128_i8 __DEFAULT_FN_ATTRS
+wasm_i8x16_shl(V128_i8 a, int32_t b){
+        return __extension__ (V128_i8) {a<<b};    
+}
+
+static __inline__ V128_i16 __DEFAULT_FN_ATTRS
+wasm_i16x8_shl(V128_i16 a, int32_t b) {
+        return __extension__ (V128_i16) {a<<b};    
+}
+
+static __inline__ V128_i32 __DEFAULT_FN_ATTRS
+wasm_i32x4_shl(V128_i32 a, int32_t b) {
+        return __extension__ (V128_i32) {a<<b};    
+}
+
+static __inline__ V128_i64 __DEFAULT_FN_ATTRS
+wasm_i64x2_shl(V128_i64 a, int32_t b) {
+        return __extension__ (V128_i64) {a<<b};    
+}
+
+static __inline__ V128_i8 __DEFAULT_FN_ATTRS
+wasm_i8x16_shr_u(V128_i8 a, int32_t b){
+        return __extension__ (V128_i8) {a>>b};    
+}
+
+static __inline__ V128_i16 __DEFAULT_FN_ATTRS
+wasm_i16x8_shr_u(V128_i16 a, int32_t b) {
+        return __extension__ (V128_i16) {a>>b};    
+}
+
+static __inline__ V128_i32 __DEFAULT_FN_ATTRS
+wasm_i32x4_shr_u(V128_i32 a, int32_t b) {
+        return __extension__ (V128_i32) {a>>b};    
+}
+
+static __inline__ V128_i64 __DEFAULT_FN_ATTRS
+wasm_i64x2_shr_u(V128_i64 a, int32_t b) {
+        return __extension__ (V128_i64) {a>>b};    
+}
+
+//instruction: v128.and
+static __inline__ V128_i8 __DEFAULT_FN_ATTRS
+wasm_v128_and(V128 a, V128 b){
+        return __extension__ (V128_i64) {a&b};    
+}
+
+static __inline__ V128_i8 __DEFAULT_FN_ATTRS
+wasm_v128_or(V128 a, V128 b){
+        return __extension__ (V128_i64) {a|b};    
+}
+
+//instruction: v128.not
+static __inline__ V128_i8 __DEFAULT_FN_ATTRS
+wasm_v128_not(V128 a){
+        return __extension__ (V128_i64) {~a};    
+}
+
+//instruction: v128.xor
+static __inline__ V128_i8 __DEFAULT_FN_ATTRS
+wasm_v128_xor(V128 a,  V128 b){
+        return __extension__ (V128_i64) {a^b};    
+}
+
+static __inline__ V128_i8 __DEFAULT_FN_ATTRS
+wasm_i8x16_eq(V128_i8 a, V128_i8 b){
+        return __extension__ (V128_i8) {a = b};    
+}
+
+static __inline__ V128_i16 __DEFAULT_FN_ATTRS
+wasm_i16x8_eq(V128_i16 a, V128_i16 b) {
+        return __extension__ (V128_i16) {a = b};    
+}
+
+static __inline__ V128_i32 __DEFAULT_FN_ATTRS
+wasm_i32x4_eq(V128_i32 a, V128_i32 b) {
+        return __extension__ (V128_i32) {a = b};   
+}
+
+static __inline__ V128_i8 __DEFAULT_FN_ATTRS
+wasm_i8x16_ne(V128_i8 a, V128_i8 b){
+        return __extension__ (V128_i8) {a = b};    
+}
+
+static __inline__ V128_i16 __DEFAULT_FN_ATTRS
+wasm_i16x8_ne(V128_i16 a, V128_i16 b) {
+        return __extension__ (V128_i16) {a = b};    
+}
+
+static __inline__ V128_i32 __DEFAULT_FN_ATTRS
+wasm_i32x4_ne(V128_i32 a, V128_i32 b) {
+        return __extension__ (V128_i32) {a = b};   
+}
+
 
 //i8x16.extract_lane_s	i:LaneIdx16
 #define wasm_i8x16_extract_lane_s(a, b) (__builtin_wasm_extract_lane_s_i8x16(a,b))
@@ -149,6 +288,23 @@ static __inline__ V128_i8 __DEFAULT_FN_ATTRS
 wasm_v128_shuffle(V128_i8 a, V128_i8 b, uint32_t s[16]) {
    return __builtin_shufflevector(a, b, 0);
 }
+
+V128_i8 wasm_i8x16_shr_s(V128_i8 a);
+
+V128_i8 wasm_i8x16_shr_u(V128_i8 a);
+
+V128_i16 wasm_i16x8_shr_s(V128_i16 a);
+
+V128_i16 wasm_i16x8_shr_u(V128_i16 a);
+
+V128_i32 wasm_i32x4_shr_s(V128_i32 a);
+
+V128_i32 wasm_i32x4_shr_u(V128_i32 a);
+
+V128_i64 wasm_i64x4_shr_s(V128_i64 a);
+
+V128_i64 wasm_i64x4_shr_u(V128_i64 a);
+
 */
 
 //v8x16.shuffle
