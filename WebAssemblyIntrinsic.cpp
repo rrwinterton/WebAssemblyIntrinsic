@@ -6,13 +6,19 @@
 #include <vector>
 using namespace std;
 #endif
+#include <vector>
 
 #include "WebAssemblyIntrinsic.h"
 #include "WebAssemblyIntrinsicTests.h"
 
-//
+using namespace std;
+
+typedef int (*UNIT_TEST_FUNCTION) (); 
+
+//globals
+vector<UNIT_TEST_FUNCTION> UnitTests;
+
 //unit tests
-//
 
 //simple wasm_i8x16_const
 int wasm_i8x16_const_test() {
@@ -38,7 +44,6 @@ int wasm_i8x16_store_test() {
    wasm_v128_store(c, a);
    return WASM_TEST_SUCCESS; 
 }
-
 
 int wasm_i8x16_splat_test() {
    V128_i8 b;
@@ -432,25 +437,11 @@ int wasm_i32x4_ne_test() {
 //IntializeTests
 int InitializeTests() {
    int Ret;  
-   Ret = WASM_TEST_SUCCESS;
-   return Ret;
-}
 
-//main (unit test driver)
-int main(int argc, char *argv[]) {
-   int Ret; 
-   Ret = InitializeTests();
-   if (Ret != WASM_TEST_SUCCESS) {
-      return Ret;
-   }
-
-//todo
-//move to initialize and create vector function pointers
-//call tests or ranges of tests with vector of functions 
-//instead of current implementation
-
-   Ret = wasm_i8x16_const_test();
-   Ret = wasm_i8x16_load_test();
+   UnitTests.push_back((UNIT_TEST_FUNCTION) wasm_i8x16_const_test);
+   UnitTests.push_back((UNIT_TEST_FUNCTION) wasm_i8x16_load_test);
+   
+/*
    Ret = wasm_i8x16_store_test();
    Ret = wasm_i8x16_splat_test();
    Ret = wasm_i16x8_splat_test();
@@ -500,5 +491,44 @@ int main(int argc, char *argv[]) {
    Ret = wasm_i8x16_ne_test();
    Ret = wasm_i16x8_ne_test();
    Ret = wasm_i32x4_ne_test();
+   */
+
+   Ret = WASM_TEST_SUCCESS;
+   return Ret;
+}
+
+//main (unit test driver)
+int main(int argc, char *argv[]) {
+   int Ret; 
+   int SuccessCnt;
+   int FailCnt;
+   UNIT_TEST_FUNCTION RunningUnitTest;
+
+   //initialize vector of tests
+   Ret = InitializeTests();
+   if (Ret != WASM_TEST_SUCCESS) {
+      return Ret;
+   }
+
+//todo
+//move to initialize and create vector function pointers
+//call tests or ranges of tests with vector of functions 
+//instead of current implementation
+
+//run unit tests
+   SuccessCnt = 0;
+   FailCnt = 0;
+   for (vector<UNIT_TEST_FUNCTION>::iterator it = UnitTests.begin() ; it != UnitTests.end(); ++it) {
+      RunningUnitTest = *it;
+      Ret = RunningUnitTest();
+      if (Ret == WASM_TEST_SUCCESS) {
+         SuccessCnt++;
+      }
+      else {
+         FailCnt++;
+      }
+
+   }
+
    return Ret;
 }
