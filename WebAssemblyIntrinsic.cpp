@@ -498,7 +498,10 @@ int InitializeTests() {
 }
 
 //main (unit test driver)
-int main(int argc, char *argv[]) {
+extern "C" {
+
+int wasmMain() {
+//int main(int argc, char *argv[]) {
    int Ret; 
    int SuccessCnt;
    int FailCnt;
@@ -531,4 +534,6 @@ int main(int argc, char *argv[]) {
    }
 
    return Ret;
+}
+
 }
