@@ -1,5 +1,5 @@
 /*
-Proposed WebAssembly SIMD Instructions 16 Nov 2018
+Proposed WebAssembly SIMD Instructions 14 Jan 2019
 */
 
 #include <stdint.h> //rrw where to get uintx_t's from?
@@ -17,6 +17,7 @@ typedef float V128_f32 __attribute__ ((__vector_size__(16)));
 typedef double V128_f64 __attribute__ ((__vector_size__(16)));
 
 //rrw is there a common definition for this?
+#define __DEFAULT_FN_VIS_ATTRS __attribute__((used)) __attribute__((visibility("default")))
 #define __DEFAULT_FN_ATTRS __attribute__((__always_inline__,__nodebug__))
 
 //v128.const  i:ImmByte[16]
@@ -26,11 +27,10 @@ wasm_v128_const(int8_t c15, int8_t c14, int8_t c13, int8_t c12, int8_t c11, int8
                     return __extension__ (V128_i8){c0,c1,c2,c3,c4,c5,c6,c7,
                                                    c8,c9,c10,c11,c12,c13,c14,c15};
                 } 
-
 //v128_load(*memory)
-static __inline__ V128_i8 __DEFAULT_FN_ATTRS
-wasm_v128_load(V128_i8 *mem) {
-   return __extension__ (V128_i8) (*mem);
+static __inline__ V128 __DEFAULT_FN_ATTRS
+wasm_v128_load(V128 *mem) {
+   return __extension__ (V128) (*mem);
 }
 
 static __inline__ void __DEFAULT_FN_ATTRS
@@ -222,7 +222,6 @@ static __inline__ V128_i32 __DEFAULT_FN_ATTRS
 wasm_i32x4_ne(V128_i32 a, V128_i32 b) {
         return __extension__ (V128_i32) {a = b};   
 }
-
 
 //i8x16.extract_lane_s	i:LaneIdx16
 #define wasm_i8x16_extract_lane_s(a, b) (__builtin_wasm_extract_lane_s_i8x16(a,b))

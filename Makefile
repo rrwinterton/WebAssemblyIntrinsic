@@ -4,7 +4,7 @@ COMPILER = clang++
 #COMPILER = g++
 
 INCLUDE_DIRS = -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7
-CCFLAGS = -std=c++17 -O0 -emit-llvm --target=wasm32-unknown-unknown -mcpu=bleeding-edge -mllvm -wasm-enable-unimplemented-simd
+CCFLAGS = -std=c++17 -O2 -emit-llvm --target=wasm32-unknown-unknown -mcpu=bleeding-edge -mllvm -wasm-enable-unimplemented-simd -fno-use-cxa-atexit
 LFLAGS = --target=wasm32 -nostdlib -Wl,--no-entry,--export-dynamic
 WOBJDFLAGS = --disassemble
 INCLUDE_DIR = ./
