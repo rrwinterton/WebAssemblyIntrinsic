@@ -511,7 +511,7 @@ int wasm_i32x4_ne_test() {
 }
 
 //InitalizeTests - would like to use STL
-int InitializeTests() {
+// int InitializeTests() {
 //   UnitTests[wasm_i8x16_const_test_number] = wasm_i8x16_const_test;
 //   UnitTests[wasm_i8x16_load_test_number] = wasm_i8x16_load_test;
 //   UnitTests[wasm_v128_load_test_number] = wasm_v128_load_test;
