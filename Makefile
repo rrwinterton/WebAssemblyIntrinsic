@@ -14,6 +14,7 @@ HEADERS = WebAssemblyIntrinsic.h WebAssemblyIntrinsicTests.h
 all: $(EXECUTABLE_NAME).js $(EXECUTABLE_NAME).wasm
 
 $(EXECUTABLE_NAME).js $(EXECUTABLE_NAME).wasm: $(SRCS) $(HEADERS)
+	export EMCC_WASM_BACKEND=2
 	$(CXX) $(SRCS) $(CXXFLAGS) -o $(EXECUTABLE_NAME).js
 
 run: $(EXECUTABLE_NAME).js $(EXECUTABLE_NAME).wasm
