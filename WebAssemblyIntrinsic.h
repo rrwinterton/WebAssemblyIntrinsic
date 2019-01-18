@@ -227,13 +227,17 @@ wasm_i32x4_ne(V128_i32 a, V128_i32 b) {
 #define wasm_i8x16_extract_lane_s(a, b) (__builtin_wasm_extract_lane_s_i8x16(a,b))
 
 //instruction: i8x16.extract_lane_u	i:LaneIdx16
+#ifdef __wasm_undefined_simd128__
 #define wasm_i8x16_extract_lane_u(a, b) (__builtin_wasm_extract_lane_u_i8x16(a,b))
+#endif
 
 //instruction: i16x8.extract_lane_s	i:LaneIdx8
 #define wasm_i16x8_extract_lane_s(a, b) (__builtin_wasm_extract_lane_s_i16x8(a,b))
 
 //instruction: i16x8.extract_lane_u	i:LaneIdx8
+#ifdef __wasm_undefined_simd128__
 #define wasm_i16x8_extract_lane_u(a, b) (__builtin_wasm_extract_lane_u_i16x8(a,b))
+#endif
 
 //instruction: i32x4.extract_lane	i:LaneIdx4  //rrw why not signed and unsigned 32's
 #define wasm_i32x4_extract_lane(a, b) (__builtin_wasm_extract_lane_i32x4(a,b))
@@ -245,7 +249,9 @@ wasm_i32x4_ne(V128_i32 a, V128_i32 b) {
 #define wasm_f32x4_extract_lane(a, b) (__builtin_wasm_extract_lane_f32x4(a,b))
 
 //instruction f64x2.extract_lane i:LaneIdx2
+#ifdef __wasm_undefined_simd128__
 #define wasm_f64x2_extract_lane(a, b) (__builtin_wasm_extract_lane_f64x2(a,b))
+#endif
 
 #define wasm_i8x16_replace_lane(a, i, b) (__builtin_wasm_replace_lane_i8x16(a, i, b))
 

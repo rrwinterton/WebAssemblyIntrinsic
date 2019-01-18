@@ -16,9 +16,9 @@ __attribute__((used)) __attribute__((visibility("default"))) int atexit(void __a
 typedef int (*UNIT_TEST_FUNCTION) (); 
 
 //globals
-//vector<UNIT_TEST_FUNCTION> UnitTestsS;
-UNIT_TEST_FUNCTION UnitTests[NUMBER_OF_TESTS];
-V128_i8 a;   
+vector<UNIT_TEST_FUNCTION> UnitTestsS;
+//UNIT_TEST_FUNCTION UnitTests[NUMBER_OF_TESTS];
+V128_i8 a;
 V128_i8 b;
 
 //wasm_i8x16_load
@@ -164,6 +164,7 @@ int wasm_i8x16_extract_lane_s_test() {
     return WASM_TEST_SUCCESS;
 }
 
+#ifdef __wasm_undefined_simd128__
 int wasm_i8x16_extract_lane_u_test() {
     V128_i8 a;
     uint32_t b;
@@ -171,6 +172,7 @@ int wasm_i8x16_extract_lane_u_test() {
     b = wasm_i8x16_extract_lane_u(a, 1);
     return WASM_TEST_SUCCESS;
 }
+#endif
 
 int wasm_i16x8_extract_lane_s_test() {
     V128_i16 a;
@@ -180,6 +182,7 @@ int wasm_i16x8_extract_lane_s_test() {
     return WASM_TEST_SUCCESS;
 }
 
+#ifdef __wasm_undefined_simd128__
 int wasm_i16x8_extract_lane_u_test() {
     V128_i16 a;
     uint32_t b;
@@ -187,6 +190,7 @@ int wasm_i16x8_extract_lane_u_test() {
     b = wasm_i16x8_extract_lane_u(a, 1);
     return WASM_TEST_SUCCESS;
 }
+#endif
 
 int wasm_i32x4_extract_lane_test() {
     V128_i32 a;
@@ -196,6 +200,7 @@ int wasm_i32x4_extract_lane_test() {
     return WASM_TEST_SUCCESS;
 }
 
+#ifdef __wasm_undefined_simd128__
 int wasm_i64x2_extract_lane_test() {
     V128_i64 a;
     int32_t b;
@@ -203,6 +208,7 @@ int wasm_i64x2_extract_lane_test() {
     b = wasm_i64x2_extract_lane(a, 1);
     return WASM_TEST_SUCCESS;
 }
+#endif
 
 //rrw fails
 int wasm_f32x4_extract_lane_test() {
@@ -214,6 +220,7 @@ int wasm_f32x4_extract_lane_test() {
 }
 
 //rrw fails 
+#ifdef __wasm_undefined_simd128__
 int wasm_f64x2_extract_lane_test() {
     V128_f64 a;
     int32_t b;
@@ -221,6 +228,7 @@ int wasm_f64x2_extract_lane_test() {
     b = wasm_f64x2_extract_lane(a, 1);
     return WASM_TEST_SUCCESS;
 }
+#endif
 
 int wasm_i8x16_replace_lane_test() {
    V128_i8 a; 
@@ -233,7 +241,7 @@ int wasm_i8x16_replace_lane_test() {
 }
 
 int wasm_i16x8_replace_lane_test() {
-   V128_i16 a; 
+   V128_i16 a;
    int8_t b;
    V128_i16 c;
    a = wasm_v128_const(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15);
@@ -252,6 +260,7 @@ int wasm_i32x4_replace_lane_test() {
    return WASM_TEST_SUCCESS;
 }
 
+#ifdef __wasm_unimplemented_simd128__
 int wasm_i64x2_replace_lane_test() {
    V128_i64 a; 
    int8_t b;
@@ -261,6 +270,7 @@ int wasm_i64x2_replace_lane_test() {
    c = wasm_i64x2_replace_lane(a, 2, b);
    return WASM_TEST_SUCCESS;
 }
+#endif
 
 //fail
 int wasm_f32x4_replace_lane_test() {
@@ -274,6 +284,7 @@ int wasm_f32x4_replace_lane_test() {
 }
 
 //fail
+#ifdef __wasm_unimplemented_simd128__
 int wasm_f64x2_replace_lane_test() {
    V128_f64 a; 
    int8_t b;
@@ -283,6 +294,7 @@ int wasm_f64x2_replace_lane_test() {
    c = wasm_f64x2_replace_lane(a, 2, b);
    return WASM_TEST_SUCCESS;
 }
+#endif
 
 int wasm_v128_shuffle_test() {
    V128_i16 a;
@@ -499,7 +511,7 @@ int wasm_i32x4_ne_test() {
 }
 
 //InitalizeTests - would like to use STL
-int InitializeTests() {
+// int InitializeTests() {
 //   UnitTests[wasm_i8x16_const_test_number] = wasm_i8x16_const_test;
 //   UnitTests[wasm_i8x16_load_test_number] = wasm_i8x16_load_test;
 //   UnitTests[wasm_v128_load_test_number] = wasm_v128_load_test;
@@ -533,56 +545,106 @@ int InitializeTests() {
 //   UnitTests[wasm_i16x8_sub_test_number] = wasm_i16x8_sub_test;
 //   UnitTests[wasm_i32x4_sub_test_number] = wasm_i32x4_sub_test;
 //   UnitTests[wasm_i64x2_sub_test_number] = wasm_i64x2_sub_test;
-   UnitTests[wasm_i8x16_mul_test_number] = wasm_i8x16_mul_test;
-   UnitTests[wasm_i16x8_mul_test_number] = wasm_i16x8_mul_test;
-   UnitTests[wasm_i32x4_mul_test_number] = wasm_i32x4_mul_test;
-//     UnitTests[wasm_i8x16_shl_test_number] = wasm_i8x16_shl_test;
-//     UnitTests[wasm_i16x8_shl_test_number] = wasm_i16x8_shl_test;
-//     UnitTests[wasm_i32x4_shl_test_number] = wasm_i32x4_shl_test;
-//     UnitTests[wasm_i64x2_shl_test_number] = wasm_i64x2_shl_test;
-//     UnitTests[wasm_v128_and_test_number] = wasm_v128_and_test;
-//     UnitTests[wasm_v128_or_test_number] = wasm_v128_or_test;
-//     UnitTests[wasm_v128_xor_test_number] =  wasm_v128_xor_test;
-//     UnitTests[wasm_i8x16_eq_test_number] = wasm_i8x16_eq_test;
-//     UnitTests[wasm_i16x8_eq_test_number] = wasm_i16x8_eq_test;
-//     UnitTests[wasm_i32x4_eq_test_number] = wasm_i32x4_eq_test;
-//     UnitTests[wasm_i8x16_ne_test_number] = wasm_i8x16_ne_test;
-//     UnitTests[wasm_i16x8_ne_test_number] = wasm_i16x8_ne_test;
-//     UnitTests[wasm_i32x4_ne_test_number] = wasm_i32x4_ne_test;
+//   UnitTests[wasm_i8x16_mul_test_number] = wasm_i8x16_mul_test;
+//   UnitTests[wasm_i16x8_mul_test_number] = wasm_i16x8_mul_test;
+//   UnitTests[wasm_i32x4_mul_test_number] = wasm_i32x4_mul_test;
+//   UnitTests[wasm_i8x16_shl_test_number] = wasm_i8x16_shl_test;
+//   UnitTests[wasm_i16x8_shl_test_number] = wasm_i16x8_shl_test;
+//   UnitTests[wasm_i32x4_shl_test_number] = wasm_i32x4_shl_test;
+//   UnitTests[wasm_i64x2_shl_test_number] = wasm_i64x2_shl_test;
+//   UnitTests[wasm_v128_and_test_number] = wasm_v128_and_test;
+//   UnitTests[wasm_v128_or_test_number] = wasm_v128_or_test;
+//   UnitTests[wasm_v128_xor_test_number] =  wasm_v128_xor_test;
+//   UnitTests[wasm_i8x16_eq_test_number] = wasm_i8x16_eq_test;
+//   UnitTests[wasm_i16x8_eq_test_number] = wasm_i16x8_eq_test;
+//   UnitTests[wasm_i32x4_eq_test_number] = wasm_i32x4_eq_test;
+//   UnitTests[wasm_i8x16_ne_test_number] = wasm_i8x16_ne_test;
+//   UnitTests[wasm_i16x8_ne_test_number] = wasm_i16x8_ne_test;
+//   UnitTests[wasm_i32x4_ne_test_number] = wasm_i32x4_ne_test;
 
-   return WASM_TEST_SUCCESS;
+//   return WASM_TEST_SUCCESS;
+// }
+
+void InitializeTestsS() {
+    UnitTestsS.push_back(wasm_i8x16_const_test);
+    UnitTestsS.push_back(wasm_i8x16_load_test);
+    UnitTestsS.push_back(wasm_v128_load_test);
+    UnitTestsS.push_back(wasm_v128_store_test);
+    UnitTestsS.push_back(wasm_i8x16_splat_test);
+    UnitTestsS.push_back(wasm_i16x8_splat_test);
+    UnitTestsS.push_back(wasm_i32x4_splat_test);
+    UnitTestsS.push_back(wasm_i64x2_splat_test);
+    UnitTestsS.push_back(wasm_f32x4_splat_test);
+    UnitTestsS.push_back(wasm_f64x2_splat_test);
+    UnitTestsS.push_back(wasm_i8x16_extract_lane_s_test);
+#ifdef __wasm_undefined_simd128__
+    UnitTestsS.push_back(wasm_i8x16_extract_lane_u_test);
+#endif
+    UnitTestsS.push_back(wasm_i16x8_extract_lane_s_test);
+#ifdef __wasm_undefined_simd128__
+    UnitTestsS.push_back(wasm_i16x8_extract_lane_u_test);
+#endif
+    UnitTestsS.push_back(wasm_i32x4_extract_lane_test);
+#ifdef __wasm_undefined_simd128__
+    UnitTestsS.push_back(wasm_i64x2_extract_lane_test);
+#endif
+    UnitTestsS.push_back(wasm_f32x4_extract_lane_test);
+    UnitTestsS.push_back(wasm_i8x16_replace_lane_test);
+    UnitTestsS.push_back(wasm_i16x8_replace_lane_test);
+    UnitTestsS.push_back(wasm_i32x4_replace_lane_test);
+#ifdef __wasm_undefined_simd128__
+    UnitTestsS.push_back(wasm_i64x2_replace_lane_test);
+#endif
+    UnitTestsS.push_back(wasm_f32x4_replace_lane_test);
+#ifdef __wasm_undefined_simd128__
+    UnitTestsS.push_back(wasm_f64x2_replace_lane_test);
+#endif
+    UnitTestsS.push_back(wasm_v128_shuffle_test);
+    UnitTestsS.push_back(wasm_i8x16_add_test);
+    UnitTestsS.push_back(wasm_i16x8_add_test);
+    UnitTestsS.push_back(wasm_i32x4_add_test);
+    UnitTestsS.push_back(wasm_i64x2_add_test);
+    UnitTestsS.push_back(wasm_i8x16_sub_test);
+    UnitTestsS.push_back(wasm_i16x8_sub_test);
+    UnitTestsS.push_back(wasm_i32x4_sub_test);
+    UnitTestsS.push_back(wasm_i64x2_sub_test);
+    UnitTestsS.push_back(wasm_i8x16_mul_test);
+    UnitTestsS.push_back(wasm_i16x8_mul_test);
+    UnitTestsS.push_back(wasm_i32x4_mul_test);
+    UnitTestsS.push_back(wasm_i8x16_shl_test);
+    UnitTestsS.push_back(wasm_i16x8_shl_test);
+    UnitTestsS.push_back(wasm_i32x4_shl_test);
+    UnitTestsS.push_back(wasm_i64x2_shl_test);
+    UnitTestsS.push_back(wasm_v128_and_test);
+    UnitTestsS.push_back(wasm_v128_or_test);
+    UnitTestsS.push_back(wasm_v128_xor_test);
+    UnitTestsS.push_back(wasm_i8x16_eq_test);
+    UnitTestsS.push_back(wasm_i16x8_eq_test);
+    UnitTestsS.push_back(wasm_i32x4_eq_test);
+    UnitTestsS.push_back(wasm_i8x16_ne_test);
+    UnitTestsS.push_back(wasm_i16x8_ne_test);
+    UnitTestsS.push_back(wasm_i32x4_ne_test);
 }
-
-/*IntializeTests
-int InitializeTestsS() {
-   int Ret;  
-
-   UnitTestsS.push_back((UNIT_TEST_FUNCTION) wasm_i8x16_const_test);
-   Ret = WASM_TEST_SUCCESS;
-   return Ret;
-}
-*/
 
 //wasmMain main callable function for all the tests
 
 extern "C"
 {
-    __DEFAULT_FN_VIS_ATTRS int wasmMain(int start, int end)
+    __DEFAULT_FN_VIS_ATTRS int main()
     {
-        
-        int Ret; 
+
+        int Ret;
         int SuccessCnt;
         int FailCnt;
         int i;
         UNIT_TEST_FUNCTION pTest;
 
-//      InitializeTestsS();
+        InitializeTestsS();
 
-        Ret = InitializeTests();
+        //Ret = InitializeTests();
 
-        for (i = start; i <= end; i++) {
-          pTest = (UNIT_TEST_FUNCTION ) UnitTests[i];
-          Ret = pTest();
+        for (auto &Test : UnitTestsS ) {
+          Ret = Test();
           if (Ret < WASM_TEST_SUCCESS)
             break;
         }
