@@ -2,7 +2,7 @@ PROJECT_NAME = WebAssemblyIntrinsic
 EXECUTABLE_NAME = WebAssemblyIntrinsic
 
 CXX = emcc
-CXXFLAGS = -s WASM=2 -s SIMD=1 -std=c++17 -O2
+CXXFLAGS = -s FETCH=1 -s WASM=2 -s SIMD=1 -O3 -munimplemented-simd128
 
 D8 = d8
 D8FLAGS = --experimental-wasm-simd --no-wasm-async-compilation
@@ -10,12 +10,11 @@ D8FLAGS = --experimental-wasm-simd --no-wasm-async-compilation
 SRCS = WebAssemblyIntrinsic.cpp
 HEADERS = WebAssemblyIntrinsic.h WebAssemblyIntrinsicTests.h
 
-
 all: $(EXECUTABLE_NAME).js $(EXECUTABLE_NAME).wasm
 
 $(EXECUTABLE_NAME).js $(EXECUTABLE_NAME).wasm: $(SRCS) $(HEADERS)
 	export EMCC_WASM_BACKEND=2
-	$(CXX) $(SRCS) $(CXXFLAGS) -o $(EXECUTABLE_NAME).js
+	$(CXX) --bind $(SRCS) $(CXXFLAGS) -o $(EXECUTABLE_NAME).js
 
 run: $(EXECUTABLE_NAME).js $(EXECUTABLE_NAME).wasm
 	$(D8) $(D8FLAGS) $(EXECUTABLE_NAME).js

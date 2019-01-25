@@ -75,6 +75,52 @@ wasm_f64x2_splat(double a) {
     return __extension__ (V128_f64){a,a};
 }
 
+//i8x16.extract_lane_s	i:LaneIdx16
+#define wasm_i8x16_extract_lane_s(a, b) (__builtin_wasm_extract_lane_s_i8x16(a,b))
+
+//instruction: i8x16.extract_lane_u	i:LaneIdx16
+#ifdef __wasm_undefined_simd128__
+#define wasm_i8x16_extract_lane_u(a, b) (__builtin_wasm_extract_lane_u_i8x16(a,b))
+#endif
+
+//instruction: i16x8.extract_lane_s	i:LaneIdx8
+#define wasm_i16x8_extract_lane_s(a, b) (__builtin_wasm_extract_lane_s_i16x8(a,b))
+
+//instruction: i16x8.extract_lane_u	i:LaneIdx8
+#ifdef __wasm_undefined_simd128__
+#define wasm_i16x8_extract_lane_u(a, b) (__builtin_wasm_extract_lane_u_i16x8(a,b))
+#endif
+
+//instruction: i32x4.extract_lane	i:LaneIdx4  //rrw why not signed and unsigned 32's
+#define wasm_i32x4_extract_lane(a, b) (__builtin_wasm_extract_lane_i32x4(a,b))
+
+//instruction: i64x2.extract_lane	i:LaneIdx2
+#define wasm_i64x2_extract_lane(a, b) (__builtin_wasm_extract_lane_i64x2(a,b))
+
+//instruction f32x4.extract_lane i:LaneIdx4
+#define wasm_f32x4_extract_lane(a, b) (__builtin_wasm_extract_lane_f32x4(a,b))
+
+//instruction f64x2.extract_lane i:LaneIdx2
+#ifdef __wasm_undefined_simd128__
+#define wasm_f64x2_extract_lane(a, b) (__builtin_wasm_extract_lane_f64x2(a,b))
+#endif
+
+#define wasm_i8x16_replace_lane(a, i, b) (__builtin_wasm_replace_lane_i8x16(a, i, b))
+
+#define wasm_i16x8_replace_lane(a, i, b) (__builtin_wasm_replace_lane_i16x8(a, i, b))
+
+#define wasm_i32x4_replace_lane(a, i, b) (__builtin_wasm_replace_lane_i32x4(a, i, b))
+
+#define wasm_i64x2_replace_lane(a, i, b) (__builtin_wasm_replace_lane_i64x2(a, i, b))
+
+#define wasm_f32x4_replace_lane(a, i, b) (__builtin_wasm_replace_lane_f32x4(a, i, b))
+
+#define wasm_f64x2_replace_lane(a, i, b) (__builtin_wasm_replace_lane_f64x2(a, i, b))
+
+//rrw1
+#define wasm_v128_shuffle(a,b) (__builtin_shufflevector(a,b,0,1,2,3,4,5,6,7))
+//rrw1
+
 static __inline__ V128_i8 __DEFAULT_FN_ATTRS
 wasm_i8x16_add(V128_i8 a, V128_i8 b){
         return __extension__ (V128_i8) {a+b};    
@@ -223,47 +269,6 @@ wasm_i32x4_ne(V128_i32 a, V128_i32 b) {
         return __extension__ (V128_i32) {a = b};   
 }
 
-//i8x16.extract_lane_s	i:LaneIdx16
-#define wasm_i8x16_extract_lane_s(a, b) (__builtin_wasm_extract_lane_s_i8x16(a,b))
-
-//instruction: i8x16.extract_lane_u	i:LaneIdx16
-#ifdef __wasm_undefined_simd128__
-#define wasm_i8x16_extract_lane_u(a, b) (__builtin_wasm_extract_lane_u_i8x16(a,b))
-#endif
-
-//instruction: i16x8.extract_lane_s	i:LaneIdx8
-#define wasm_i16x8_extract_lane_s(a, b) (__builtin_wasm_extract_lane_s_i16x8(a,b))
-
-//instruction: i16x8.extract_lane_u	i:LaneIdx8
-#ifdef __wasm_undefined_simd128__
-#define wasm_i16x8_extract_lane_u(a, b) (__builtin_wasm_extract_lane_u_i16x8(a,b))
-#endif
-
-//instruction: i32x4.extract_lane	i:LaneIdx4  //rrw why not signed and unsigned 32's
-#define wasm_i32x4_extract_lane(a, b) (__builtin_wasm_extract_lane_i32x4(a,b))
-
-//instruction: i64x2.extract_lane	i:LaneIdx2
-#define wasm_i64x2_extract_lane(a, b) (__builtin_wasm_extract_lane_i64x2(a,b))
-
-//instruction f32x4.extract_lane i:LaneIdx4
-#define wasm_f32x4_extract_lane(a, b) (__builtin_wasm_extract_lane_f32x4(a,b))
-
-//instruction f64x2.extract_lane i:LaneIdx2
-#ifdef __wasm_undefined_simd128__
-#define wasm_f64x2_extract_lane(a, b) (__builtin_wasm_extract_lane_f64x2(a,b))
-#endif
-
-#define wasm_i8x16_replace_lane(a, i, b) (__builtin_wasm_replace_lane_i8x16(a, i, b))
-
-#define wasm_i16x8_replace_lane(a, i, b) (__builtin_wasm_replace_lane_i16x8(a, i, b))
-
-#define wasm_i32x4_replace_lane(a, i, b) (__builtin_wasm_replace_lane_i32x4(a, i, b))
-
-#define wasm_i64x2_replace_lane(a, i, b) (__builtin_wasm_replace_lane_i64x2(a, i, b))
-
-#define wasm_f32x4_replace_lane(a, i, b) (__builtin_wasm_replace_lane_f32x4(a, i, b))
-
-#define wasm_f64x2_replace_lane(a, i, b) (__builtin_wasm_replace_lane_f64x2(a, i, b))
 
 /*
 // identity operation - return 4-element vector v1.
@@ -285,7 +290,6 @@ __builtin_shufflevector(V1, V2, 0, 2, 4, 6, 8, 10, 12, 14)
 __builtin_shufflevector(v1, v1, 3, -1, 1, -1)
 */
 
-//v128_load(*memory)
 #define wasm_v128_shuffle(a,b) (__builtin_shufflevector(a,b,0,1,2,3,4,5,6,7))
 
 /*

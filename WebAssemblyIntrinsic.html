@@ -1,96 +1,18 @@
 <!DOCTYPE html>
-<html>
-
 <head>
-    <title>WebAssemblyIntrinsic</title>
+  <meta charset="utf-8">
+  <title>WebAssembly SIMD Intrinsic Tests</title>
 </head>
-
 <body>
-    <b><u>WebAssembly Intrinsic Unit Tests</u></b><br>
-    (Needs to have range for now single test - bug in WebAssembly)<br>
-    Runs Start to End test - Result: either first test failure number or 0 if all tests are successful<br><br>
-    (Enabling more than 3 at a time fails - look into currently at: 34-36)<br>
-    <b>Test Number </b><input type="number" id="testNumber" value=""> &nbsp; 
-    <input type="button" value="Run Unit Tests" onclick="OnClickTest();" /> &nbsp;
-    (see test numbers below)<br>
-    <br>
-    <u><b>WebAssembly Intrinsic Unit Test Results</b></u><br>
-    <div id="WebAssemblyTestResults"></div><br>
-    <hr>
-    <u><b>Unit Test Number (Informational)</b></u><br>
-    wasm_i8x16_const_test_number 1 <br>
-    wasm_i8x16_load_test_number 2 <br>
-    wasm_v128_load_test_number 3 <br>
-    wasm_v128_store_test_number 4 <br>
-    wasm_i8x16_splat_test_number 5 <br>
-    wasm_i16x8_splat_test_number 6 <br>
-    wasm_i32x4_splat_test_number 7 <br>
-    wasm_i64x2_splat_test_number 8 <br>
-    wasm_f32x4_splat_test_number 9 <br>
-    wasm_f64x2_splat_test_number 10 <br>
-    wasm_i8x16_extract_lane_s_test_number 11 <br>
-    wasm_i8x16_extract_lane_u_test_number 12 <br>
-    wasm_i16x8_extract_lane_s_test_number 13 <br>
-    wasm_i16x8_extract_lane_u_test_number 14 <br>
-    wasm_i32x4_extract_lane_test_number 15 <br>
-    wasm_i64x2_extract_lane_test_number 16 <br>
-    wasm_f32x4_extract_lane_test_number 17 (fail) <br>
-    wasm_f64x2_extract_lane_test_number 18 (fail) <br>   
-    wasm_i8x16_replace_lane_test_number 19 <br>
-    wasm_i16x8_replace_lane_test_number 20 <br>
-    wasm_i32x4_replace_lane_test_number 21 <br>
-    wasm_i64x2_replace_lane_test_number 22 <br>
-    wasm_i32x4_replace_lane_test_number 23 (fail) <br>
-    wasm_i64x2_replace_lane_test_number 24 (fail) <br>
-    wasm_v128_shuffle_test_number 25 <br>
-    wasm_i8x16_add_test_number 26 <br>
-    wasm_i16x8_add_test_number 27 <br>
-    wasm_i32x4_add_test_number 28 <br>
-    wasm_i64x2_add_test_number 29 <br>
-    wasm_i8x16_sub_test_number 30 <br>
-    wasm_i16x8_sub_test_number 31 <br>
-    wasm_i32x4_sub_test_number 32 <br>
-    wasm_i64x2_sub_test_number 33 <br>
-    wasm_i8x16_mul_test_number 34 <br>
-    wasm_i16x8_mul_test_number 35 <br>
-    wasm_i32x4_mul_test_number 36 <br>
-    wasm_i8x16_shl_test_number 37 <br>
-    wasm_i16x8_shl_test_number 38 <br>
-    wasm_i32x4_shl_test_number 39 <br>
-    wasm_i64x2_shl_test_number 40 <br>
-    wasm_v128_and_test_number 41 <br>
-    wasm_v128_or_test_number 42 <br>
-    wasm_v128_xor_test_number 43 <br>
-    wasm_i8x16_eq_test_number 44 <br>
-    wasm_i16x8_eq_test_number 45 <br>
-    wasm_i32x4_eq_test_number 46 <br>
-    wasm_i8x16_ne_test_number 47 <br>
-    wasm_i16x8_ne_test_number 48 <br>
-    wasm_i32x4_ne_test_number 49 <br>
 
-    <!--script id="scriptWorker" type="javascript/worker" src="wasm_worker.js"></script-->
-    <script id="scriptWorker" type="javascript/worker" src="wasm_worker.js"></script>
-    <script type="text/javascript" src="WebAssemblyIntrinsic.js"></script>
-    <script type="text/javascript">
-        var testNum;
-        var resultLocation;
-        var g_WasmWorker = new Worker("wasm_worker.js");
-        resultLocation = document.getElementById("WebAssemblyTestResults");
-        resultLocation.innerHTML = "None";
-        InitWasmWorker(g_WasmWorker);
-        function OnClickTest() {
-            //run tests
-            testNum = document.getElementById("testNumber").value;
-            g_WasmWorker.postMessage({ "MsgId": "RunTests", "Start": testNum, "End": testNum });
-        }
+  <h2>WebAssembly SIMD Intrinsic Tests</h2>
+  Start Test &nbsp; &nbsp;
+  <input id="startTest" name="startTest" size="15" type="text" /> <br><br>
+  End Test &nbsp; &nbsp;
+  <input id="endTest" name="endTest" size="15" type="text" /> <br><br>
+  <input id="cbRun" name="run" type="submit" value="Run" /><br><hr>
+  <output id="cbtestRet" name="testRet" size="15" type="text" />
+  <script src="WebAssemblyIntrinsic.js"></script> 
 
-        g_WasmWorker.onmessage = e => {
-          resultLocation = document.getElementById("WebAssemblyTestResults");
-          const message = e.data;
-          resultLocation.innerHTML = message;
-//          console.log(`[From Worker]: ${message}`);
-        };
-    </script>
 </body>
-
-</html>
+</html> 
