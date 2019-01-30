@@ -39,16 +39,17 @@ int on_run_click(int eventType, const EmscriptenMouseEvent *mouseEvent, void *us
   int Ret;
   int startingTest, endingTest;
   string OutputResults = "";
-/*
+  Ret = -11;
+
   auto &Test = UnitTests[0];
   Ret = Test();
-*/
+/*
   for (auto &Test : UnitTests ) {
           Ret = Test();
           if (Ret < WASM_TEST_SUCCESS)
             break;
         }
-/*
+
   startingTest = stoi(getInput("startTest").c_str());
   endingTest = startingTest;
 
@@ -78,7 +79,7 @@ int wasm_i8x16_load_test()
   char bBuff[17];
   int Ret;
 
-  Ret = WASM_TEST_SUCCESS;
+  
   for (i = 0; i < 17; i++)
   {
     aBuff[i] = 0;
@@ -86,8 +87,10 @@ int wasm_i8x16_load_test()
   }
   bBuff[16] = 1;
 
-  a = wasm_v128_const(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15);
-  b = wasm_v128_load(&a);
+//  a = wasm_v128_const(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15);
+  b = wasm_v128_load((V128 *) aBuff);
+Ret = WASM_TEST_SUCCESS;
+/*
 
   //rrw todo
 
@@ -101,10 +104,10 @@ int wasm_i8x16_load_test()
   {
     Ret = -wasm_i8x16_load_test_number;
   }
-
+*/
   return Ret;
 }
-
+/*
 //simple wasm_i8x16_const Note: wasm_i8x16_const is tested in the load test
 int wasm_i8x16_const_test()
 {
@@ -116,7 +119,7 @@ int wasm_i8x16_const_test()
   }
   return -11; //rrw Ret;
 }
-/*
+
 int wasm_v128_load_test()
 {
   V128_i8 aVal;
@@ -620,10 +623,10 @@ int wasm_i32x4_ne_test()
 */
 void InitializeTests()
 {
-  UnitTests.push_back(wasm_i8x16_const_test);
-/*  
+//  UnitTests.push_back(wasm_i8x16_const_test);
+  
   UnitTests.push_back(wasm_i8x16_load_test);
-  UnitTests.push_back(wasm_v128_load_test);
+/*  UnitTests.push_back(wasm_v128_load_test);
   UnitTests.push_back(wasm_v128_store_test);
   UnitTests.push_back(wasm_i8x16_splat_test);
   UnitTests.push_back(wasm_i16x8_splat_test);
