@@ -2,6 +2,7 @@
 #include <emscripten/fetch.h>
 #include <emscripten/html5.h>
 #include <emscripten/val.h>
+#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <vector>
@@ -14,8 +15,26 @@ using namespace std;
 
 // globals
 vector<UNIT_TEST_FUNCTION> UnitTests;
-//V128_i8 a;
-//V128_i8 b;
+int8_t g_randInsert = 1; //in html * 1
+V128_i8 a;
+V128_i8 b;
+V128_i8 c;
+uint8_t aBuff[16];
+uint8_t bBuff[16];
+V128_i32 bv32;
+
+
+uint8_t randInsert(uint32_t seed) {
+  uint8_t retVal;
+  if (seed == 1) {
+    retVal = 1;
+  }
+  else {
+    srand(seed);
+    retVal = (uint8_t ) (rand() * seed);
+  }
+  return retVal;
+}
 
 // getInput
 string getInput(string fieldName) {
@@ -31,88 +50,66 @@ void setOutput(std::string fieldname, std::string value) {
   elem.set("value", value);
 }
 
-// begin unit tests
-
-// wasm_i8x16_load
-int wasm_i8x16_load_test() {
-  int i;
-  V128_i8 a;
-  V128_i8 b;
-  char aBuff[17];
-  char bBuff[17];
+// simple wasm_v128_const
+int wasm_v128_const_test() {
   int Ret;
-
-  for (i = 0; i < 17; i++) {
-    aBuff[i] = 0;
-    bBuff[i] = 0;
-  }
-  bBuff[16] = 1;
-
-  a = wasm_v128_const(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15);
-  b = wasm_v128_load((V128*)aBuff);
+  a = wasm_v128_const(0, 11, 22, 33, 44, 55, 66, 77, 88, 99, 10, 11, 12, 13, 14, 15);
   Ret = WASM_TEST_SUCCESS;
-
-  //rrw todo
   return Ret;
 }
 
-// simple wasm_i8x16_const Note: wasm_i8x16_const is tested in the load test
-int wasm_i8x16_const_test() {
+// wasm_v128_load
+int wasm_v128_load_test() {
+  int i;
   int Ret;
-  Ret = wasm_i8x16_load_test();
-  if (Ret != WASM_TEST_SUCCESS) {
+
+  for (i = 0; i < 16; i++) {
+    aBuff[i] = i*10;
+  }
+
+  a = wasm_v128_load((V128*)aBuff);
+  wasm_v128_store((V128*) bBuff, a);
+
+  for (i = 0; i < 16; i++) {
+    if (aBuff[i] != bBuff[i]) {
+       break;
+    }
+  }
+  if (i < 16) {
     Ret = WASM_TEST_GENERAL_FAIL;
   }
+  else {
+    Ret = WASM_TEST_SUCCESS;
+  }
   return Ret;
-}
-
-int wasm_v128_load_test() {
-  V128_i8 aVal;
-  char aBuff[16];
-  char bBuff[16];
-  int i;
-  int Ret;
-
-  Ret = WASM_TEST_GENERAL_FAIL;
-  for (i = 0; i < 16; i++) {
-    aBuff[i] = 16 - i;
-  }
-
-  aVal = wasm_v128_load((V128_i8*)aBuff);
-
-  i = 0;
-  for (i = 0; i < sizeof(aBuff); i++) {
-    if (aBuff[i] != bBuff[i])
-      break;
-  }
-  // still need to validate
-  return WASM_TEST_SUCCESS;
 }
 
 // V128 storemem;
 int wasm_v128_store_test() {
   int i;
-  V128_i8 a;
-  char* pChar;
-  V128 storemem;
+  uint8_t* pChar;
+  static V128 storemem;
   int Ret;
-
   Ret = WASM_TEST_SUCCESS;
-  a = wasm_v128_const(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15);
+  for (i = 0; i < 16; i++) {
+    aBuff[i] = i * randInsert(g_randInsert);
+  }
+
+  a = wasm_v128_load((V128*) &aBuff);
+
   wasm_v128_store((V128 *) &storemem, a);
   // rrw validate big endian little endian issue
-  pChar = (char*)&storemem;
+  pChar = (uint8_t *)&storemem;
   for (i = 0; i < 16; i++) {
-    if (*pChar++ != 15 - i) {
-      Ret = WASM_TEST_SUCCESS;
+    if (*pChar++ != i) {
+      Ret = WASM_TEST_GENERAL_FAIL;
       break;
     }
   }
-  return WASM_TEST_SUCCESS;
+  return Ret;
 }
 
 int wasm_i8x16_splat_test() {
-  V128_i8 b;
   int8_t a;
   a = 11;
   b = wasm_i8x16_splat(a);
@@ -128,10 +125,11 @@ int wasm_i16x8_splat_test() {
 }
 
 int wasm_i32x4_splat_test() {
-  V128_i32 b;
-  int32_t a;
-  a = 11;
-  b = wasm_i32x4_splat(a);
+  V128_i32 bv32;
+  int32_t i32a;
+  i32a = 117711;
+  bv32 = wasm_i32x4_splat(i32a);
+  wasm_v128_store((V128*) bBuff, bv32);
   return WASM_TEST_SUCCESS;
 }
 
@@ -212,9 +210,7 @@ int wasm_f64x2_extract_lane_test() {
 #endif
 
 int wasm_i8x16_replace_lane_test() {
-  V128_i8 a;
   int32_t b;
-  V128_i8 c;
   a = wasm_v128_const(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15);
   b = 7;
   c = wasm_i8x16_replace_lane(a, 2, b);
@@ -277,9 +273,6 @@ int wasm_f64x2_replace_lane_test() {
 
 // rrw need to fix const variable
 int wasm_i8x16_shuffle_test() {
-  V128_i8 a;
-  V128_i8 b;
-  V128_i8 c;
   V128_i8 s = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
   c = wasm_i8x16_shuffle(a, b, s);
   return WASM_TEST_SUCCESS;
@@ -641,13 +634,27 @@ int wasm_v128_i64_any_true_test() {
 }
 #endif
 
-// rrw begin here
 int wasm_i8x16_eq_test() {
   V128_i8 a, b, c;
-  a = wasm_v128_const(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15);
-  b = wasm_v128_const(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
+  int i;
+  int Ret;
+
+  for (i = 0; i < 16; i++) {
+    aBuff[i] = i*2;
+    bBuff[i] = aBuff[i];
+  }
+
+  a = wasm_v128_load((V128*)aBuff);
+  bBuff[2] = bBuff[2] * randInsert(g_randInsert);
+  b = wasm_v128_load((V128*)bBuff);
   c = wasm_i8x16_eq(a, b);
-  return WASM_TEST_SUCCESS;
+  wasm_v128_store((V128*) bBuff, c);
+  Ret = WASM_TEST_SUCCESS;
+  for (i = 0; i < 15; i++) {
+    if (bBuff[2] == 0)
+      Ret = WASM_TEST_GENERAL_FAIL;
+  }
+  return Ret;
 }
 
 int wasm_i16x8_eq_test() {
@@ -716,7 +723,27 @@ int wasm_i32x4_ne_test() {
   return WASM_TEST_SUCCESS;
 }
 
+int wasm_i8x16_lt_s_test() {
+  V128_i8 a, b, c;
+  int8_t ia[8], ib[8];
+  c = wasm_i8x16_lt_s(a,b);
+  return WASM_TEST_SUCCESS;
+}
+
+int wasm_i8x16_lt_u_test() {
+  V128_i8 a, b, c;
+  c = wasm_i8x16_lt_u(a,b);
+  return WASM_TEST_SUCCESS;
+}
 /*
+wasm_i8x16_lt_u
+wasm_i16x8_lt_s
+wasm_i16x8_lt_u
+wasm_i32x4_lt_s
+wasm_i32x4_lt_u
+wasm_f32x4_lt
+wasm_f64x2_lt
+
 int wasm_convert_s_f32x4_i32x4_test() {
   float fa[4];
   V128_f32 a;
@@ -742,8 +769,8 @@ int wasm_convert_u_f32x2_i64x2_test() {
 // end unit tests
 
 void InitializeTests() {
-  UnitTests.push_back(wasm_i8x16_const_test);
-  UnitTests.push_back(wasm_i8x16_load_test);
+
+  UnitTests.push_back(wasm_v128_const_test);
   UnitTests.push_back(wasm_v128_load_test);
   UnitTests.push_back(wasm_v128_store_test);
   UnitTests.push_back(wasm_i8x16_splat_test);
@@ -818,6 +845,20 @@ void InitializeTests() {
   #ifdef __wasm_undefined_simd128__
     UnitTests.push_back(wasm_v128_i64_any_true_test);
   #endif
+  UnitTests.push_back(wasm_i8x16_eq_test);
+
+
+/*
+wasm_i8x16_eq
+wasm_i16x8_eq
+wasm_i32x4_eq
+wasm_f32x4_eq
+
+wasm_i8x16_ne
+wasm_i16x8_ne
+wasm_i32x4_ne
+wasm_f32x4_ne
+*/
 
 /*
   UnitTests.push_back(wasm_i8x16_eq_test);
@@ -854,23 +895,53 @@ int on_run_click(int eventType,
                  void* userData) {
   int Ret;
   int testCnt;
-  int startingTest, endingTest;
+  int testsRun;
+  string randInputStr, startTestStr, endTestStr;
+  int startTest, endTest;
   string OutputResults = "";
 
   testCnt = 0;
-  for (auto& Test : UnitTests) {
-    Ret = Test();
-    testCnt++;
-    if (Ret < WASM_TEST_SUCCESS)
-      break;
-  }
-  Ret = -1;
-  if (testCnt == UnitTests.size()) {
-    Ret = WASM_TEST_SUCCESS;
+
+  randInputStr = getInput("randInsert").c_str();
+  if (randInputStr.length()) {
+    g_randInsert = stoi(randInputStr.c_str());
   }
   else {
-    Ret = testCnt;
+    g_randInsert = 1;
   }
+
+  startTestStr = getInput("startTest").c_str();
+  if (startTestStr.length()) {
+    startTest = stoi(startTestStr.c_str()) - 1; //zero based index
+  }
+  else {
+    startTest = 0;
+  }
+
+  endTestStr = getInput("endTest").c_str();
+  if (startTestStr.length()) {
+    endTest = stoi(endTestStr.c_str()) - 1; //zero based index
+  }
+  else {
+    endTest = UnitTests.size()-1; //zero based index
+  }
+  testsRun = 0;
+  vector<UNIT_TEST_FUNCTION>::iterator ptr = UnitTests.begin();
+  advance(ptr, startTest);
+  for (testCnt = startTest; testCnt <= endTest; testCnt++) {
+//  for (auto& Test : UnitTests) {
+    auto &Test = *ptr;
+    advance(ptr, 1);
+    Ret = Test();
+    if (Ret < WASM_TEST_SUCCESS) {
+      break;
+    }
+    testsRun++;
+  }
+  if ((testCnt == UnitTests.size()) && (Ret == WASM_TEST_SUCCESS)) {
+    Ret = WASM_TEST_SUCCESS;
+  }
+
   /*
   startingTest = stoi(getInput("startTest").c_str());
   endingTest = startingTest;
@@ -885,12 +956,12 @@ int on_run_click(int eventType,
   OutputResults = "Tests Run ";
   */
   if (Ret == WASM_TEST_SUCCESS) {
-  OutputResults = "Yeah Success! - ";
+  OutputResults = "Yeah Success! : ";
   }
   else {
-  OutputResults = "Ugh Fail! - ";
+  OutputResults = "Ugh Fail! : ";
   }
-  OutputResults += to_string(testCnt);
+  OutputResults += to_string(testsRun);
   OutputResults += " Tests Run, ReturnCode: ";
   OutputResults += to_string(Ret);
   setOutput("cbtestRet", OutputResults.c_str());

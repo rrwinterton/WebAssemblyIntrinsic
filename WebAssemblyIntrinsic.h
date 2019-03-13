@@ -218,6 +218,16 @@ static __inline__ V128_i64 __DEFAULT_FN_ATTRS wasm_i64x2_neg(V128_i64 a) {
   return __extension__(V128_i64){-a};
 }
 
+//V128_f32 wasm_f32x4_neg(V128_f32 a)
+static __inline__ V128_f32 __DEFAULT_FN_ATTRS wasm_f32x4_neg(V128_f32 a) {
+  return __extension__(V128_f32){-a};
+}
+
+//V128_f64 wasm_f64x2_neg(V128_f64 a)
+static __inline__ V128_f64 __DEFAULT_FN_ATTRS wasm_f64x2_neg(V128_f64 a) {
+  return __extension__(V128_f64){-a};
+}
+
 //V128_i8 wasm_add_saturate_s(V128_i8 a, V128_i8 b)
 #define wasm_i8x16_add_saturate_s(a, b) \
   (__builtin_wasm_add_saturate_s_i8x16(a, b))
@@ -376,59 +386,196 @@ static __inline__ V128_i32 __DEFAULT_FN_ATTRS wasm_i32x4_ne(V128_i32 a,
   return __extension__(V128_i32){a != b};
 }
 
+//V128_i8 wasm_i8x16_lt_s(V128_i8 a, V128_i8)
+static __inline__ V128_i8 wasm_i8x16_lt_s(V128_i8 a, V128_i8 b) {
+  return __extension__(V128_i8){a < b};
+}
+
+//V128_i8 wasm_i8x16_lt_u(V128_u8 a, V128_u8)
+static __inline__ V128_u8 wasm_i8x16_lt_u(V128_u8 a, V128_u8 b) {
+  return __extension__(V128_u8){a < b};
+}
+
+//V128_i16 wasm_i16x8_lt_s(V128_i16 a, V128_i16)
+static __inline__ V128_i16 wasm_i16x8_lt_s(V128_i16 a, V128_i16 b) {
+  return __extension__(V128_i16){a < b};
+}
+
+//V128_i16 wasm_i16x8_lt_u(V128_u16 a, V128_u16)
+static __inline__ V128_u16 wasm_i16x8_lt_u(V128_u16 a, V128_u16 b) {
+  return __extension__(V128_u16){a < b};
+}
+
+//V128_i32 wasm_i32x4_lt_s(V128_i32 a, V128_i32 b)
+static __inline__ V128_i32 wasm_i32x4_lt_s(V128_i32 a, V128_i32 b) {
+  return __extension__(V128_i32){a < b};
+}
+
+//V128_i32 wasm_i32x4_lt_u(V128_u32 a, V128_u32 b)
+static __inline__ V128_u32 wasm_i32x4_lt_u(V128_u32 a, V128_u32 b) {
+  return __extension__(V128_u32){a < b};
+}
+
+//V128_f32 wasm_f32x4_lt(V128_f32 a, V128_f32 b)
+static __inline__ V128_f32 wasm_f32x4_lt(V128_f32 a, V128_f32 b) {
+  return __extension__(V128_f32){a < b};
+}
+
+//V128_f64 wasm_f64x2_lt(V128_f64 a, V128_f64 b)
+static __inline__ V128_f64 wasm_f64x2_lt(V128_f64 a, V128_f64 b) {
+  return __extension__(V128_f64){a < b};
+}
+
+//V128_i8 wasm_i8x16_le_s(V128_i8 a, V128_i8)
+static __inline__ V128_i8 wasm_i16x8_le_s(V128_i8 a, V128_i8 b) {
+  return __extension__(V128_i8){a <= b};
+}
+
+//V128_i8 wasm_i8x16_le_u(V128_u8 a, V128_u8)
+static __inline__ V128_u8 wasm_i16x8_le_u(V128_u8 a, V128_u8 b) {
+  return __extension__(V128_u8){a <= b};
+}
+
+//V128_i16 wasm_i16x8_le_s(V128_i16 a, V128_i16)
+static __inline__ V128_i16 wasm_i16x8_le_s(V128_i16 a, V128_i16 b) {
+  return __extension__(V128_i16){a <= b};
+}
+
+//V128_i16 wasm_i16x8_le_u(V128_u16 a, V128_u16)
+static __inline__ V128_u16 wasm_i16x8_le_u(V128_u16 a, V128_u16 b) {
+  return __extension__(V128_u16){a <= b};
+}
+
+//V128_i32 wasm_i32x4_le_s(V128_i32 a, V128_i32 b)
+static __inline__ V128_i32 wasm_i32x4_le_s(V128_i32 a, V128_i32 b) {
+  return __extension__(V128_i32){a <= b};
+}
+
+//V128_i32 wasm_i32x4_le_u(V128_u32 a, V128_u32 b)
+static __inline__ V128_u32 wasm_i32x4_le_u(V128_u32 a, V128_u32 b) {
+  return __extension__(V128_u32){a <= b};
+}
+
+//V128_f32 wasm_f32x4_le(V128_f32 a, V128_f32 b)
+static __inline__ V128_f32 wasm_f32x4_le(V128_f32 a, V128_f32 b) {
+  return __extension__(V128_f32){a <= b};
+}
+
+//V128_f64 wasm_f64x2_le(V128_f64 a, V128_f64 b)
+static __inline__ V128_f64 wasm_f64x2_le(V128_f64 a, V128_f64 b) {
+  return __extension__(V128_f64){a <= b};
+}
+
+//V128_i8 wasm_i8x16_gt_s(V128_i8 a, V128_i8)
+static __inline__ V128_i8 wasm_i16x8_gt_s(V128_i8 a, V128_i8 b) {
+  return __extension__(V128_i8){a > b};
+}
+
+//V128_i8 wasm_i8x16_gt_u(V128_u8 a, V128_u8)
+static __inline__ V128_u8 wasm_i16x8_gt_u(V128_u8 a, V128_u8 b) {
+  return __extension__(V128_u8){a > b};
+}
+
+//V128_i16 wasm_i16x8_gt_s(V128_i16 a, V128_i16)
+static __inline__ V128_i16 wasm_i16x8_gt_s(V128_i16 a, V128_i16 b) {
+  return __extension__(V128_i16){a > b};
+}
+
+//V128_i16 wasm_i16x8_gt_u(V128_u16 a, V128_u16)
+static __inline__ V128_u16 wasm_i16x8_gt_u(V128_u16 a, V128_u16 b) {
+  return __extension__(V128_u16){a > b};
+}
+
+//V128_i32 wasm_i32x4_gt_s(V128_i32 a, V128_i32 b)
+static __inline__ V128_i32 wasm_i32x4_gt_s(V128_i32 a, V128_i32 b) {
+  return __extension__(V128_i32){a > b};
+}
+
+//V128_i32 wasm_i32x4_gt_u(V128_u32 a, V128_u32 b)
+static __inline__ V128_u32 wasm_i32x4_gt_u(V128_u32 a, V128_u32 b) {
+  return __extension__(V128_u32){a > b};
+}
+
+//V128_f32 wasm_f32x4_gt(V128_f32 a, V128_f32 b)
+static __inline__ V128_f32 wasm_f32x4_gt(V128_f32 a, V128_f32 b) {
+  return __extension__(V128_f32){a > b};
+}
+
+//V128_f64 wasm_f64x2_gt(V128_f64 a, V128_f64 b)
+static __inline__ V128_f64 wasm_f64x2_gt(V128_f64 a, V128_f64 b) {
+  return __extension__(V128_f64){a > b};
+}
+
+//V128_i8 wasm_i8x16_ge_s(V128_i8 a, V128_i8)
+static __inline__ V128_i8 wasm_i16x8_ge_s(V128_i8 a, V128_i8 b) {
+  return __extension__(V128_i8){a >= b};
+}
+
+//V128_i8 wasm_i8x16_ge_u(V128_u8 a, V128_u8)
+static __inline__ V128_u8 wasm_i16x8_ge_u(V128_u8 a, V128_u8 b) {
+  return __extension__(V128_u8){a >= b};
+}
+
+//V128_i16 wasm_i16x8_ge_s(V128_i16 a, V128_i16)
+static __inline__ V128_i16 wasm_i16x8_ge_s(V128_i16 a, V128_i16 b) {
+  return __extension__(V128_i16){a >= b};
+}
+
+//V128_i16 wasm_i16x8_ge_u(V128_u16 a, V128_u16)
+static __inline__ V128_u16 wasm_i16x8_ge_u(V128_u16 a, V128_u16 b) {
+  return __extension__(V128_u16){a >= b};
+}
+
+//V128_i32 wasm_i32x4_ge_s(V128_i32 a, V128_i32 b)
+static __inline__ V128_i32 wasm_i32x4_ge_s(V128_i32 a, V128_i32 b) {
+  return __extension__(V128_i32){a >= b};
+}
+
+//V128_i32 wasm_i32x4_ge_u(V128_u32 a, V128_u32 b)
+static __inline__ V128_u32 wasm_i32x4_ge_u(V128_u32 a, V128_u32 b) {
+  return __extension__(V128_u32){a >= b};
+}
+
+//V128_f32 wasm_f32x4_ge(V128_f32 a, V128_f32 b)
+static __inline__ V128_f32 wasm_f32x4_ge(V128_f32 a, V128_f32 b) {
+  return __extension__(V128_f32){a >= b};
+}
+
+//V128_f64 wasm_f64x2_ge(V128_f64 a, V128_f64 b)
+static __inline__ V128_f64 wasm_f64x2_ge(V128_f64 a, V128_f64 b) {
+  return __extension__(V128_f32){a >= b};
+}
+
+//V128_i8  wasm_v128_i8_abs(V128_i8 a)
+#define wasm_v128_i8_abs(a) (__builtin_wasm_abs_i8x16(a))
+
+//V128_i16  wasm_v128_i16_abs(V128_i16 a)
+#define wasm_v128_i16_abs(a) (__builtin_wasm_abs_i16x8(a))
+
+//V128_i32  wasm_v128_i32_abs(V128_i32 a)
+#define wasm_v128_i32_abs(a) (__builtin_wasm_abs_i32x4(a))
+
+//V128_i64  wasm_v128_i64_abs(V128_i64 a)
+#define wasm_v128_i64_abs(a) (__builtin_wasm_abs_i64x2(a))
+
+//V128_f32  wasm_v128_f32_abs(V128_f32 a)
+#define wasm_v128_f32_abs(a) (__builtin_wasm_abs_f32x4(a))
+
+//V128_f64  wasm_v128_i64_abs(V128_f64 a)
+#define wasm_v128_f64_abs(a) (__builtin_wasm_abs_f64x2(a))
+
 // rrw not sure how this should work with variable input
 #define wasm_v128_shuffle(a, b) \
   (__builtin_shufflevector(a, b, 0, 1, 2, 3, 4, 5, 6, 7))
 
 //converts float and doubles to int
+//
+#define wasm_convert_s_f32x4_i32x4(a, b) (__builtin_convertvector(a, b))
+#define wasm_convert_u_f32x4_i32x4(f32x4, v) (__builtin_convertvector(v, f32x4))
+#define wasm_convert_s_f64x2_i64x2(f64x2, v) (__builtin_convertvector(v, f64x2))
+#define wasm_convert_u_f64x2_i64x2(f64x2, v) (__builtin_convertvector(v, f64x2))
+//
 /*
-#define wasm_convert_s_f32x4_i32x4(a, b) \
-  (__builtin_convertvector(a, b))
-#define wasm_convert_u_f32x4_i32x4(f32x4, v) \
-  (__builtin_convertvector(v, f32x4))
-#define wasm_convert_s_f64x2_i64x2(f64x2, v) \
-  (__builtin_convertvector(v, f64x2))
-#define wasm_convert_u_f64x2_i64x2(f64x2, v) \
-  (__builtin_convertvector(v, f64x2))
-*/
-/*
-
-i8x16.lt_s
-i8x16.lt_u
-i16x8.lt_s
-i16x8.lt_u
-i32x4.lt_s
-i32x4.lt_u
-f32x4.lt
-f64x2.lt
-i8x16.le_s
-i8x16.le_u
-i16x8.le_s
-i16x8.le_u
-i32x4.le_s
-i32x4.le_u
-f32x4.le
-f64x2.le
-i8x16.gt_s
-i8x16.gt_u
-i16x8.gt_s
-i16x8.gt_u
-i32x4.gt_s
-i32x4.gt_u
-f32x4.gt
-f64x2.gt
-i8x16.ge_s
-i8x16.ge_u
-i16x8.ge_s
-i16x8.ge_u
-i32x4.ge_s
-i32x4.ge_u
-f32x4.ge
-f64x2.ge
-f32x4.neg
-f64x2.neg
-f32x4.abs
-f64x2.abs
 f32x4.min
 f64x2.min
 f32x4.max
@@ -451,5 +598,4 @@ i32x4.trunc_s/f32x4:sat
 i32x4.trunc_u/f32x4:sat
 i64x2.trunc_s/f64x2:sat
 i64x2.trunc_u/f64x2:sat
-
 */
