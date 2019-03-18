@@ -270,18 +270,18 @@ int32_t wasm_u8x16_extract_lane_test() {
 
 int32_t wasm_i16x8_extract_lane_test() {
   int16_t b;
-  int16_t ai[8] = {-1, 0, 2, -3, 4, -5, 6, 7};
+  int16_t ai[8] = {-7, 0, 2, -3, 4, -5, 6, 7};
   int32_t insertVal;
   int32_t Ret;
 
   insertVal = randInsert(g_randInsert);
-  ai[4] *= (insertVal % 3) + 1;
+  ai[1] = insertVal - 1;
   i16x8_a = wasm_v128_load((i8x16*)ai);
   if (insertVal == 1) {
-    b = wasm_i8x16_extract_lane(i16x8_a, 1);
+    b = wasm_i16x8_extract_lane(i16x8_a, 1);
   }
   else {
-    b = wasm_i8x16_extract_lane(i16x8_a, 4);
+    b = wasm_i16x8_extract_lane(i16x8_a, 4);
   }
   Ret = (int32_t ) b;
   return Ret;
@@ -1182,7 +1182,7 @@ int32_t on_run_click(int32_t eventType,
     endTest = UnitTests.size() - 1;  //zero based index
   }
 
-  testsRun = 1;
+  testsRun = 0;
   vector<UNIT_TEST_FUNCTION>::iterator ptr = UnitTests.begin();
   advance(ptr, startTest);
 
@@ -1190,10 +1190,10 @@ int32_t on_run_click(int32_t eventType,
     auto& Test = *ptr;
     advance(ptr, 1);
     Ret = Test();
-    if (Ret < WASM_TEST_SUCCESS) {
+    testsRun++;
+    if (Ret != WASM_TEST_SUCCESS) {
       break;
     }
-    testsRun++;
   }
 
   if ((testsRun == UnitTests.size()) && (Ret == WASM_TEST_SUCCESS)) {
